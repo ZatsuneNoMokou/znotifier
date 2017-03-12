@@ -1,3 +1,11 @@
+# 0.0.7
+* Fix: Author link, in the panel
+
+# 0.0.6
+* Fix: Badge count if > 9999
+* Fix: Link in panel
+* Fix: Opening link on list notification and on the notification of "all viewed" for a single website
+
 # 0.0.5
 * Fix: Forgotten console.* for debug
 

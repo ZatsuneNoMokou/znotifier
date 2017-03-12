@@ -47,6 +47,9 @@ function doNotificationAction_Event(notificationId){
 			case "notificationList":
 				open_website(action.data.website);
 				break;
+			case "allViewed":
+				open_website(action.data.website);
+				break;
 			case "notLogged":
 				open_website_login(action.data.website);
 				break;
@@ -65,6 +68,13 @@ chrome.notifications.onClicked.addListener(function(notificationId){
 	
 	if(!chromeAPI_button_availability){
 		doNotificationAction_Event(notificationId);
+	} else {
+		if(typeof notificationId == "string" && notificationId != ""){
+			let action = JSON.parse(notificationId);
+			if(action.type == "notificationList"){
+				doNotificationAction_Event(notificationId);
+			}
+		}
 	}
 })
 chrome.notifications.onButtonClicked.addListener(function(notificationId, buttonIndex){
@@ -238,7 +248,7 @@ function doNotifyWebsite(website){
 			voiceReadMessage("fr", _("count_new_notif", websiteData.count.toString()));
 		}
 	} else if(getPreference("notify_all_viewed") && (typeof websiteData.count == "number" && websiteData.count == 0) && (typeof websiteData.notificationState.count == "number" && websiteData.notificationState.count > 0)){
-		doActionNotif(_("website_notif", website), _("all_viewed"), new notifAction("none", {"website": website}), websiteData.websiteIcon);
+		doActionNotif(_("website_notif", website), _("all_viewed"), new notifAction("allViewed", {"website": website}), websiteData.websiteIcon);
 	}
 	websiteData.notificationState.count = websiteData.count;
 }
@@ -357,9 +367,21 @@ function refreshWebsitesData(){
 				consoleDir(mapToObj(websitesData), "Data:");
 				console.groupEnd();
 			}
-			
+
 			chrome.browserAction.setTitle({title: (count == null)? _("no_website_logged") : label});
-			chrome.browserAction.setBadgeText({text: (count != null)? count.toString() : ""});
+
+			let displayedCount;
+			if(count == null){
+				displayedCount = "";
+			} else if(count>=1000000){
+				displayedCount = parseInt(count / 1000000)+"M";
+			} else if(count>=10000){
+				displayedCount = parseInt(count / 1000)+"k";
+			} else {
+				displayedCount = count.toString();
+			}
+
+			chrome.browserAction.setBadgeText({text: displayedCount});
 			chrome.browserAction.setBadgeBackgroundColor({color: (count != null && count > 0)? "#FF0000" : "#424242"});
 			
 			resolve(data);
