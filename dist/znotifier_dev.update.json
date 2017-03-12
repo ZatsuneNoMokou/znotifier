@@ -1,0 +1,12 @@
+{
+	"addons": {
+		"znotifier_dev@zatsunenomokou.eu": {
+			"updates": [
+				{ "version": "0.0.2",
+					"update_link": "https://gitlab.com/ZatsuneNoMokou/znotifier/raw/master/dist/znotifier_dev.xpi",
+					"applications": {
+						"gecko": { "strict_min_version": "52" } } }
+			]
+		}
+	}
+}

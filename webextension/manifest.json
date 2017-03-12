@@ -1,0 +1,53 @@
+{
+	"applications": {
+		"gecko": {
+			"id": "znotifier_dev@zatsunenomokou.eu",
+			"strict_min_version": "52.0",
+			"update_url": "https://gitlab.com/ZatsuneNoMokou/znotifier/raw/master/dist/z_notifier_dev.update.json"
+		}
+	},
+	"manifest_version": 2,
+	"name": "z-Notifier (Dev)",
+	"short_name": "zNotifierDev",
+	"description": "__MSG_extShortDesc__",
+	"author": "ZatsuneNoMokou",
+	"version": "0.0.2",
+	"icons": {
+		"128": "/icon_128.png"
+	},
+	"background": {
+		"scripts": [ "/data/js/loadJS.js", "/data/js/options-data.js", "/data/js/options-api.js", "/data/js/voiceAPI.js", "/data/js/request.js", "index.js" ]
+	},
+	"browser_action": {
+		"browser_style": false,
+		"icons": {
+			"16": "/icon_16.png",
+			"48": "/icon_48.png",
+			"64": "/icon_64.png",
+			"128": "/icon_128.png"
+		},
+		"default_popup": "/data/panel.html"
+	},
+	"default_locale": "en",
+	"offline_enabled": false,
+	"permissions": [
+		"tabs",
+		"activeTab",
+		"notifications",
+		"storage",
+		"unlimitedStorage",
+		"http://*.deviantart.net/*",
+		"https://*.deviantart.net/*",
+		"http://*.deviantart.com/*",
+		"https://*.deviantart.com/*",
+		"http://*.youtube.com/*",
+		"https://*.youtube.com/*",
+		"http://*.ytimg.com/*",
+		"https://*.ytimg.com/*"
+	],
+	"options_ui": {
+		"page": "data/options.html",
+		"chrome_style": true
+	},
+	"minimum_chrome_version": "42.0"
+}

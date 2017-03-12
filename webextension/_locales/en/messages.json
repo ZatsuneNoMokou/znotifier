@@ -1,0 +1,185 @@
+{
+	"extName": {
+		"message": "z-Notifier",
+		"description": ""
+	},
+	"extShortDesc": {
+		"message": "Follow some websites notifications without keeping them open",
+		"description": "this will be used as short description in web stores: MUST BE 132 characters OR LESS"
+	},
+	"Addon_have_been_updated": {
+		"message": "Addon have been updated (version $version$)",
+		"placeholders": {
+			"version": {
+				"content": "$1"
+			}
+		}
+	},
+	"Open_in_browser": {
+		"message": "Open in browser"
+	},
+	"Close": {
+		"message": "Close"
+	},
+	"LogIn": {
+		"message": "Log in"
+	},
+	"website_notif": {
+		"message": "$website$ notification(s)",
+		"placeholders": {
+			"website": {
+				"content": "$1"
+			}
+		}
+	},
+	"website_not_logged": {
+		"message": "No $website$ account logged",
+		"placeholders": {
+			"website": {
+				"content": "$1"
+			}
+		}
+	},
+	"not_logged": {
+		"message": "Not logged"
+	},
+	"no_website_logged": {
+		"message": "No account logged"
+	},
+	"count_new_notif": {
+		"message": "$count$ new notification(s)",
+		"placeholders": {
+			"count": {
+				"content": "$1"
+			}
+		}
+	},
+	"count_new_notif_noplural": {
+		"message": "$count$ new notification",
+		"placeholders": {
+			"count": {
+				"content": "$1"
+			}
+		}
+	},
+	"all_viewed": {
+		"message": "Everything viewed"
+	},
+	"refresh": {
+		"message": "Refresh"
+	},
+	"Settings": {
+		"message": "Open setting page"
+	},
+	"check_delay_title": {
+		"message": "Streams verification delay"
+	},
+	"check_delay_description": {
+		"message": "Delay between verifications, in minute"
+	},
+	"timeout_delay_title": {
+		"message": "Timeout delay of requests"
+	},
+	"timeout_delay_description": {
+		"message": "Timeout delay of requests, in sec (between 10 and 30)"
+	},
+	"global_notify_title": {
+		"message": "Show a global notification for all websites"
+	},
+	"global_notify_description": {
+		"message": "Global notification when checked"
+	},
+	"notify_all_viewed_title": {
+		"message": "Show a notification when all view in website(s)"
+	},
+	"notify_all_viewed_description": {
+		"message": "Notification when checked"
+	},
+	"notify_title": {
+		"message": "Show a notification on new websites notications"
+	},
+	"notify_description": {
+		"message": "Notification when checked"
+	},
+	"notify_vocal_title": {
+		"message": "Read a vocal notification on new websites notications"
+	},
+	"notify_vocal_description": {
+		"message": "Notification when checked"
+	},
+	"vocal_volume_title": {
+		"message": "Volume of vocal notifiations"
+	},
+	"vocal_volume_description": {
+		"message": "In percent"
+	},
+	"panel_theme_title": {
+		"message": "Panel theme"
+	},
+	"panel_theme_description": {
+		"message": "Choose the theme of the panel"
+	},
+	"panel_theme_dark": {
+		"message": "Dark"
+	},
+	"panel_theme_light": {
+		"message": "Light"
+	},
+	"background_color_title": {
+		"message": "Panel color"
+	},
+	"background_color_description": {
+		"message": "Choose base color of the panel"
+	},
+	"export_preferences_title": {
+		"message": "Export preferences in a file"
+	},
+	"export_preferences": {
+		"message": "Export"
+	},
+	"import_preferences_title": {
+		"message": "Import preferences from a file"
+	},
+	"import_preferences": {
+		"message": "Import"
+	},
+	"showAdvanced_title": {
+		"message": "Show advanced settings"
+	},
+	"showAdvanced_description": {
+		"message": "Enabled when checked"
+	},
+	"showExperimented_title": {
+		"message": "Show setting for experimented users"
+	},
+	"showExperimented_description": {
+		"message": "Enabled when checked"
+	},
+	"options_saved": {
+		"message": "Options saved."
+	},
+	"options_saved_sync": {
+		"message": "Options saved in synchronisation."
+	},
+	"save": {
+		"message": "Save"
+	},
+	"sync_title": {
+		"message": "Save / Restaure preferences from/to synchronization"
+	},
+	"restaure_sync": {
+		"message": "Restaure"
+	},
+	"save_sync": {
+		"message": "Save"
+	},
+	"footer_title": {
+		"message": "Addon under GPL v3 licence."
+	},
+	"footer_by": {
+		"message": "by"
+	},
+	"supportWithPatreon": {
+		"message": "Support this addon and his creator"
+	}
+}

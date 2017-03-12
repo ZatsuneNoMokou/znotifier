@@ -1,0 +1,7 @@
+z-notifier_dev-*.zip
+.goutputstream*
+*.nex
+*.pem
+*.crx
+tmp/
+TODO.md
