@@ -172,10 +172,8 @@ function scrollbar_update(nodeId){
 }
 
 load_scrollbar("websiteDataList");
-setTimeout(()=>{
-	window.onresize = function(){
-		scrollbar_update("websiteDataList");
-	}
-}, 1000)
+window.onresize = _.debounce(event=>{
+	scrollbar_update("websiteDataList");
+}, 500);
 
 updatePanelData();

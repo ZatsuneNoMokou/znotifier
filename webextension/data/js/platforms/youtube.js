@@ -1,5 +1,5 @@
 let YouTube = {
-	dataURL:"http://www.youtube.com/",
+	dataURL:"https://www.youtube.com/",
 	getViewURL:
 		function(websiteState){
 			if(websiteState.count > 0){
@@ -7,7 +7,7 @@ let YouTube = {
 			} else if(websiteState.logged != null && websiteState.logged == false){
 				return "https://www.youtube.com/feed/subscriptions"; // dA will redirect it to https://www.deviantart.com/users/login?ref=*
 			} else {
-				return "http://www.youtube.com/";
+				return "https://www.youtube.com/";
 			}
 		},
 	getLoginURL:
@@ -21,6 +21,7 @@ let YouTube = {
 			let result = new ExtendedMap();
 			
 			let nodes = dataDocument.querySelectorAll("ul#guide-channels li.guide-channel");
+
 			if(nodes != null){
 				result.set("count", 0);
 				result.set("logged", false)

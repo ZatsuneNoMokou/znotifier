@@ -392,6 +392,7 @@ function refreshWebsite(website){
 	return new Promise((resolve, reject) => {
 		Request({
 			url: websites.get(website).dataURL,
+			overrideMimeType: "text/html; charset=utf-8",
 			contentType: "document",
 			Request_documentParseToJSON: websites.get(website).Request_documentParseToJSON,
 			onComplete: function (xhrRequest) {
