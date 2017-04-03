@@ -23,6 +23,8 @@ let options_default_sync = backgroundPage.optionsData.options_default_sync;
 
 let appGlobal = backgroundPage.appGlobal;
 
+let i18n = chrome.i18n.getMessage;
+
 /*				---- Website notification list ----				*/
 
 let websiteDataList_Node = document.querySelector("#websiteDataList");
@@ -69,6 +71,7 @@ function updatePanelData(data){
 					websiteNode_data.appendChild(folderNode);
 					
 					if(folderData.folderUrl != ""){
+						folderNode.dataset.translateTitle = "open_folder";
 						folderNode.dataset.folderUrl = folderData.folderUrl;
 						folderNode.addEventListener("click", function(event){
 							event.stopPropagation();

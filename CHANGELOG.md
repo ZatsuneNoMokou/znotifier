@@ -1,3 +1,8 @@
+# 0.0.8
+* +: Add title to folder to clearly indicate when it will open just the folder
+* +: Add "+" to clearly indicate in the concerned notifications that the number is the new notification compared to before
+* +: Add the number of "new" in the global notification
+
 # 0.0.7
 * Fix: Author link, in the panel
 

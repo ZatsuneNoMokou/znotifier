@@ -18,6 +18,9 @@
 	"Open_in_browser": {
 		"message": "Open in browser"
 	},
+	"open_folder": {
+		"message":"Open the folder"
+	},
 	"Close": {
 		"message": "Close"
 	},

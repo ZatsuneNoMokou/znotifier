@@ -18,6 +18,9 @@
 	"Open_in_browser": {
 		"message": "Ouvrir dans le navigateur"
 	},
+	"open_folder": {
+		"message": "Ouvrir le dossier"
+	},
 	"Close": {
 		"message": "Fermer"
 	},

@@ -5,7 +5,7 @@ let _ = chrome.i18n.getMessage;
 // appGlobal: Accessible with chrome.extension.getBackgroundPage();
 var appGlobal = {
 	loadJS: loadJS
-}
+};
 
 let options = optionsData.options,
 	options_default = optionsData.options_default,
@@ -16,7 +16,7 @@ function consoleMsg(level,str){
 	let msg = (typeof str.toString == "function")? str.toString() : str;
 	if(getPreference("showAdvanced") && getPreference("showExperimented")){
 		if(typeof console[level] == "function"){
-			console[level](str)
+			console[level](str);
 		} else {
 			consoleMsg("log", str);
 		}
@@ -38,9 +38,9 @@ function consoleDir(obj,str){
 function doNotif(title, message, imgurl) {
 	doActionNotif(title, message, {}, imgurl);
 }
-appGlobal["doNotif"] = doNotif;
+appGlobal.doNotif = doNotif;
 function doNotificationAction_Event(notificationId){
-	if(typeof notificationId == "string" && notificationId != ""){
+	if(typeof notificationId == "string" && notificationId !== ""){
 		let action = JSON.parse(notificationId);
 		
 		switch(action.type){
@@ -69,23 +69,23 @@ chrome.notifications.onClicked.addListener(function(notificationId){
 	if(!chromeAPI_button_availability){
 		doNotificationAction_Event(notificationId);
 	} else {
-		if(typeof notificationId == "string" && notificationId != ""){
+		if(typeof notificationId == "string" && notificationId !== ""){
 			let action = JSON.parse(notificationId);
 			if(action.type == "notificationList"){
 				doNotificationAction_Event(notificationId);
 			}
 		}
 	}
-})
+});
 chrome.notifications.onButtonClicked.addListener(function(notificationId, buttonIndex){
 	consoleMsg("info",`${notificationId} (onButtonClicked) - Button index: ${buttonIndex}`);
 	chrome.notifications.clear(notificationId);
 	
 	// 0 is the first button, used as button of action
-	if(buttonIndex == 0){
+	if(buttonIndex === 0){
 		doNotificationAction_Event(notificationId);
 	}
-})
+});
 
 class notifAction{
 	constructor(type, data){
@@ -103,25 +103,25 @@ function doActionNotif(title, message, action, imgurl){
 		contextMessage: chrome.runtime.getManifest().name,
 		iconUrl: (typeof imgurl != "undefined")? imgurl : "/icon_128.png",
 		isClickable: true
-	}
+	};
 	
 	let openUrl = {title: _("Open_in_browser"), iconUrl: "/data/images/ic_open_in_browser_black_24px.svg"},
 		close = {title: _("Close"), iconUrl: "/data/images/ic_close_black_24px.svg"},
 		log_in = {title: _("LogIn"), iconUrl: "/data/images/ic_open_in_browser_black_24px.svg"};
 	
-	if(chromeAPI_list_availability == true && action.type == "notificationList"){
+	if(chromeAPI_list_availability === true && action.type == "notificationList"){
 		options.type = "list";
 		options.items = action.data.list;
-	} else if(chromeAPI_button_availability == true){
+	} else if(chromeAPI_button_availability === true){
 		// 2 buttons max per notification
 		// 2nd button is a cancel (no action) button
 		switch(action.type){
 			case "notLogged":
-				options.buttons = [log_in, close]
+				options.buttons = [log_in, close];
 				break;
 			case "openUrl":
 				// Notification with openUrl action
-				options.buttons = [openUrl, close]
+				options.buttons = [openUrl, close];
 				break;
 			default:
 				options.buttons = [close];
@@ -142,7 +142,7 @@ function doActionNotif(title, message, action, imgurl){
 	
 	new Promise((resolve, reject) => {
 		chrome.notifications.create(notification_id, options, function(notificationId){
-			if(typeof chrome.runtime.lastError == "object" && chrome.runtime.lastError != null && typeof chrome.runtime.lastError.message == "string" && chrome.runtime.lastError.message.length > 0){
+			if(typeof chrome.runtime.lastError == "object" && chrome.runtime.lastError !== null && typeof chrome.runtime.lastError.message == "string" && chrome.runtime.lastError.message.length > 0){
 				reject(chrome.runtime.lastError);
 			}
 		});
@@ -152,15 +152,15 @@ function doActionNotif(title, message, action, imgurl){
 			
 			if(/*error.message == "Adding buttons to notifications is not supported." ||*/ error.message.indexOf("\"list\"") != -1){
 				chromeAPI_list_availability = false;
-				consoleMsg("log","List not supported, retrying notification without it.")
+				consoleMsg("log","List not supported, retrying notification without it.");
 				doActionNotif(title, message, action, imgurl);
 			} else if(error.message == "Adding buttons to notifications is not supported." || error.message.indexOf("\"buttons\"") != -1){
 				chromeAPI_button_availability = false;
-				consoleMsg("log","Buttons not supported, retrying notification without them.")
+				consoleMsg("log","Buttons not supported, retrying notification without them.");
 				doActionNotif(title, message, action, imgurl);
 			}
 		}
-	})
+	});
 }
 
 
@@ -194,7 +194,7 @@ function open_website_login(website){
 
 class ExtendedMap extends Map{
 	addValue(id, newValue) {
-		this.set(id, this.get(id) + newValue)
+		this.set(id, this.get(id) + newValue);
 	}
 	
 	getBestIcon(){
@@ -210,7 +210,7 @@ class ExtendedMap extends Map{
 					bestUrl = value;
 				}
 			}
-		})
+		});
 		return bestUrl;
 	}
 }
@@ -226,20 +226,24 @@ function doNotifyWebsite(website){
 			websiteData.folders.forEach((folderData, name) => {
 				let count = folderData.folderCount;
 				if(typeof count == "number" && !isNaN(count) && count > 0){
-					labelArray.push(`${name}: ${count}`);
+					let suffix = "";
+					if(websiteData.notificationState.count !== null && websiteData.count > websiteData.notificationState.count){
+						suffix=` (+${websiteData.count - websiteData.notificationState.count})`;
+					}
+					labelArray.push(`${name}: ${count}${suffix}`);
 					notificationList.push({"title": `${(typeof folderData.folderName == "string")? folderData.folderName : name}: `, "message": count.toString()});
 				}
-			})
+			});
 			label = labelArray.join("\n");
 		}
 	}
 	if(!websiteData.logged){
 		label = _("website_not_logged", website);
-		if(websiteData.notificationState.logged == null || websiteData.notificationState.logged == true){
+		if(websiteData.notificationState.logged === null || websiteData.notificationState.logged === true){
 			doActionNotif(_("website_notif", website), _("website_not_logged", website), new notifAction("notLogged", {"website": website}), websiteData.websiteIcon);
 		}
 		websiteData.notificationState.logged = websiteData.logged;
-	} else if(typeof websiteData.count == "number" && !isNaN(websiteData.count) && (websiteData.notificationState.count == null || websiteData.count > websiteData.notificationState.count)){
+	} else if(typeof websiteData.count == "number" && !isNaN(websiteData.count) && (websiteData.notificationState.count === null || websiteData.count > websiteData.notificationState.count)){
 		if(getPreference("notify")){
 			doActionNotif(_("website_notif", website), _("count_new_notif", websiteData.count.toString()), new notifAction("notificationList", {"website": website, "list": notificationList}), websiteData.websiteIcon);
 		}
@@ -247,7 +251,7 @@ function doNotifyWebsite(website){
 		if(getPreference("notify_vocal")){
 			voiceReadMessage("fr", _("count_new_notif", websiteData.count.toString()));
 		}
-	} else if(getPreference("notify_all_viewed") && (typeof websiteData.count == "number" && websiteData.count == 0) && (typeof websiteData.notificationState.count == "number" && websiteData.notificationState.count > 0)){
+	} else if(getPreference("notify_all_viewed") && (typeof websiteData.count == "number" && websiteData.count === 0) && (typeof websiteData.notificationState.count == "number" && websiteData.notificationState.count > 0)){
 		doActionNotif(_("website_notif", website), _("all_viewed"), new notifAction("allViewed", {"website": website}), websiteData.websiteIcon);
 	}
 	websiteData.notificationState.count = websiteData.count;
@@ -264,31 +268,31 @@ function doNotifyWebsites(){
 		
 		if(websiteData.logged){
 			let suffix = "";
-			if(websiteData.notificationState.count != null && websiteData.count > websiteData.notificationState.count){
-				suffix=`(${websiteData.count - websiteData.notificationState.count})`;
+			if(websiteData.notificationState.count !== null && websiteData.count > websiteData.notificationState.count){
+				suffix=` (+${websiteData.count - websiteData.notificationState.count})`;
 			}
 			
-			if(websiteData.notificationState.count == null || suffix != ""){
-				notificationList.push(`${website}: ${websiteData.count} ${suffix}`);
+			if(websiteData.notificationState.count === null || suffix !== ""){
+				notificationList.push(`${website}: ${websiteData.count}${suffix}`);
 			}
-			newGlobalCount = ((newGlobalCount != null)? newGlobalCount : 0) + websiteData.count;
+			newGlobalCount = ((newGlobalCount !== null)? newGlobalCount : 0) + websiteData.count;
 		} else {
-			if(websiteData.notificationState.logged == null || websiteData.notificationState.logged == true){
+			if(websiteData.notificationState.logged === null || websiteData.notificationState.logged === true){
 				notificationList.push(website + ": " +  _("not_logged"));
 			}
-			websiteData.notificationState.logged = (websiteData.logged != null)? websiteData.logged : false;
+			websiteData.notificationState.logged = (websiteData.logged !== null)? websiteData.logged : false;
 		}
 		websiteData.notificationState.count = websiteData.count;
-	})
+	});
 	
-	if(newGlobalCount != null && notificationList.length > 0){
+	if(newGlobalCount !== null && notificationList.length > 0){
 		if(getPreference("notify")){
 			doActionNotif(_("count_new_notif", newGlobalCount.toString()), notificationList.join("\n"), new notifAction("none",{}));
 		}
 		if(getPreference("notify_vocal")){
 			voiceReadMessage("fr", _("count_new_notif_noplural", newGlobalCount.toString()));
 		}
-	} else if(newGlobalCount != null && notificationList.length == 0 && newGlobalCount == 0 && (typeof globalCount == "number" && globalCount > 0) && getPreference("notify_all_viewed")){
+	} else if(newGlobalCount !== null && notificationList.length === 0 && newGlobalCount === 0 && (typeof globalCount == "number" && globalCount > 0) && getPreference("notify_all_viewed")){
 		doActionNotif("z-Notifier", _("all_viewed"), new notifAction("none",{}));
 	}
 	globalCount = newGlobalCount;
@@ -307,7 +311,7 @@ class websiteDefaultData{
 			"websiteIcon": "",
 			"logged": null,
 			"loginId": ""
-		}
+		};
 	}
 }
 function PromiseWaitAll(promises){
@@ -318,10 +322,10 @@ function PromiseWaitAll(promises){
 			promises.forEach((promise, index, array) => {
 				let handler = data => {
 					results[index] = data;
-					if(--count == 0){
+					if(--count === 0){
 						resolve(results);
 					}
-				}
+				};
 				
 				if(promise instanceof Promise){
 					promise.then(handler);
@@ -329,13 +333,13 @@ function PromiseWaitAll(promises){
 				} else {
 					handler(promise);
 				}
-			})
-			if(count == 0){
+			});
+			if(count === 0){
 				resolve(results);
 			}
 		});
 	} else {
-		throw "promises should be an Array or Map of Promise"
+		throw "promises should be an Array or Map of Promise";
 	}
 }
 function isMap(myMap){
@@ -352,13 +356,13 @@ function refreshWebsitesData(){
 			
 			
 			websitesData.forEach((websiteData, website) => {
-				if(websiteData.logged && websiteData.count != null){
-					if(count == null){
+				if(websiteData.logged && websiteData.count !== null){
+					if(count === null){
 						count = 0;
 					}
 					count += websiteData.count;
 				}
-			})
+			});
 			
 			if(getPreference("showAdvanced") && getPreference("showExperimented")){
 				console.group();
@@ -368,10 +372,10 @@ function refreshWebsitesData(){
 				console.groupEnd();
 			}
 
-			chrome.browserAction.setTitle({title: (count == null)? _("no_website_logged") : label});
+			chrome.browserAction.setTitle({title: (count === null)? _("no_website_logged") : label});
 
 			let displayedCount;
-			if(count == null){
+			if(count === null){
 				displayedCount = "";
 			} else if(count>=1000000){
 				displayedCount = parseInt(count / 1000000)+"M";
@@ -382,14 +386,14 @@ function refreshWebsitesData(){
 			}
 
 			chrome.browserAction.setBadgeText({text: displayedCount});
-			chrome.browserAction.setBadgeBackgroundColor({color: (count != null && count > 0)? "#FF0000" : "#424242"});
+			chrome.browserAction.setBadgeBackgroundColor({color: (count !== null && count > 0)? "#FF0000" : "#424242"});
 			
 			resolve(data);
 			
 			if(getPreference("global_notify")){
 				doNotifyWebsites();
 			}
-		}
+		};
 		
 		websites.forEach((websiteAPI, website) =>{
 			promises.set(website, refreshWebsite(website));
@@ -399,12 +403,12 @@ function refreshWebsitesData(){
 						doNotifyWebsite(website);
 					}
 				})
-				.catch((data) => {consoleDir(data,"refreshWebsitesData");})
-		})
+				.catch((data) => {consoleDir(data,"refreshWebsitesData");});
+		});
 		
 		PromiseWaitAll(promises)
 			.then(onPromiseEnd)
-			.catch(onPromiseEnd)
+			.catch(onPromiseEnd);
 		
 		clearInterval(interval);
 		interval = setInterval(refreshWebsitesData, getPreference('check_delay') * 60000);
@@ -418,7 +422,7 @@ function refreshWebsite(website){
 			contentType: "document",
 			Request_documentParseToJSON: websites.get(website).Request_documentParseToJSON,
 			onComplete: function (xhrRequest) {
-				if(/*(/^2\d*$/.test(xhrRequest.status) == true || xhrRequest.statusText == "OK") && */ xhrRequest.json != null){
+				if(/*(/^2\d*$/.test(xhrRequest.status) == true || xhrRequest.statusText == "OK") && */ xhrRequest.json !== null){
 					let data = xhrRequest.map;
 					let websiteData = websitesData.get(website);
 					
@@ -439,7 +443,7 @@ function refreshWebsite(website){
 				
 			}
 		}).get();
-	})
+	});
 }
 
 
@@ -450,7 +454,7 @@ var interval,
 function initAddon(){
 	websites.forEach((websiteAPI, website) => {
 		websitesData.set(website, new websiteDefaultData());
-	})
+	});
 	
 	refreshWebsitesData();
 }
@@ -515,16 +519,16 @@ chrome.storage.local.get(null,function(currentLocalStorage) {
 	} else {*/
 		//consoleMsg("warn", "chrome.runtime.onInstalled is not available");
 		let details;
-		if(typeof getPreference("zNotifier_version") == "string" && getPreference("zNotifier_version") != ""){
+		if(typeof getPreference("zNotifier_version") == "string" && getPreference("zNotifier_version") !== ""){
 			details = {
 				"reason": "unknown",
 				"previousVersion": getPreference("zNotifier_version")
-			}
+			};
 		} else {
 			details = {
 				"reason": "install",
 				"previousVersion": "0.0.0"
-			}
+			};
 		}
 		checkIfUpdated(details);
 	//}
