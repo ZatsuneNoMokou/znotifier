@@ -1,3 +1,6 @@
+# 0.1.1
+* Fix: dataDocument null error
+
 # 0.1.0
 * +: Yahoo Mail support
 

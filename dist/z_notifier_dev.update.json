@@ -2,7 +2,7 @@
 	"addons": {
 		"znotifier_dev@zatsunenomokou.eu": {
 			"updates": [
-				{ "version": "0.1.0",
+				{ "version": "0.1.1",
 					"update_link": "https://gitlab.com/ZatsuneNoMokou/znotifier/raw/master/dist/z_notifier_dev.xpi",
 					"applications": {
 						"gecko": { "strict_min_version": "52" } } }

@@ -11,7 +11,8 @@ let yahooMail = {
 	Request_documentParseToJSON:
 		function(xhrRequest){
 			let dataDocument = xhrRequest.response;
-			console.dir(dataDocument)
+
+
 			let result = new ExtendedMap();
 
 			result.set("logged", false);
@@ -20,6 +21,11 @@ let yahooMail = {
 			result.set("folders", new Map());
 
 			result.set("websiteIcon", "https://s.yimg.com/nq/favicons/2/favicons/favicon-no-badge-32x32.png");
+
+			if(dataDocument === null){
+				return null;
+			}
+
 			let iconNodes = dataDocument.querySelectorAll("link[rel='shortcut icon'][href]");
 			if(iconNodes !== null && iconNodes.length > 0){
 				result.set("websiteIcon", iconNodes[0].href);
