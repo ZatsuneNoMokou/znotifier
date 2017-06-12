@@ -1,3 +1,6 @@
+# 0.1.0
+* +: Yahoo Mail support
+
 # 0.0.8
 * +: Add title to folder to clearly indicate when it will open just the folder
 * +: Add "+" to clearly indicate in the concerned notifications that the number is the new notification compared to before

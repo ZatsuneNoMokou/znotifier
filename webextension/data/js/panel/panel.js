@@ -1,10 +1,10 @@
 // Avoid keeping init node in memory
 let panelinitjs_node = document.querySelector("#panelInit");
-panelinitjs_node.parentNode.removeChild(panelinitjs_node)
+panelinitjs_node.parentNode.removeChild(panelinitjs_node);
 
 function sendDataToMain(id, data){
 	function responseCallback(response){
-		if(typeof response != "undefined"){
+		if(typeof response !== "undefined"){
 			console.group();
 			console.info(`Port response of ${id}: `);
 			console.groupEnd();
@@ -59,18 +59,18 @@ function updatePanelData(data){
 		
 		let websiteNode_data = document.createElement("div");
 		websiteNode_data.classList.add("websiteData");
-		
+
 		if(websiteData.logged){
 			websiteData.folders.forEach((folderData, folderName) => {
 				let count = folderData.folderCount;
-				if(typeof count == "number" && !isNaN(count) && count > 0){
+				if(typeof count === "number" && !isNaN(count) && count > 0){
 					let folderNode = document.createElement("span");
 					folderNode.classList.add("folder");
 					folderNode.dataset.folderCount = count;
-					folderNode.dataset.folderTitle = (typeof folderData.folderName == "string")? folderData.folderName : folderName;
+					folderNode.dataset.folderTitle = (typeof folderData.folderName === "string")? folderData.folderName : folderName;
 					websiteNode_data.appendChild(folderNode);
 					
-					if(folderData.folderUrl != ""){
+					if(typeof folderData.folderUrl === "string" && folderData.folderUrl !== ""){
 						folderNode.dataset.translateTitle = "open_folder";
 						folderNode.dataset.folderUrl = folderData.folderUrl;
 						folderNode.addEventListener("click", function(event){
@@ -106,7 +106,7 @@ function refreshButtonClick(){
 	let done = function(reason){
 		console.dir(reason);
 		updatePanelData();
-	}
+	};
 	backgroundPage.refreshWebsitesData()
 		.then(done)
 		.catch(done)
@@ -128,7 +128,7 @@ current_version(chrome.runtime.getManifest().version);
 function theme_update(){
 	let panelColorStylesheet = theme_cache_update(document.querySelector("#generated-color-stylesheet"));
 	
-	if(typeof panelColorStylesheet == "object" && panelColorStylesheet !== null){
+	if(typeof panelColorStylesheet === "object" && panelColorStylesheet !== null){
 		console.info("Theme update");
 		
 		let currentThemeNode = document.querySelector("#generated-color-stylesheet");
@@ -165,9 +165,9 @@ function load_scrollbar(id){
 }
 
 function scrollbar_update(nodeId){
-	if(typeof nodeId == "string" && nodeId != ""){
+	if(typeof nodeId === "string" && nodeId !== ""){
 		let scrollbar_node = document.querySelector(`#${nodeId}`);
-		if(scrollbar_node != null){
+		if(scrollbar_node !== null){
 			$(scrollbar_node).perfectScrollbar('update');
 			//Ps.update(scrollbar_node);
 		}

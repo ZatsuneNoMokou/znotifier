@@ -4,7 +4,7 @@ let YouTube = {
 		function(websiteState){
 			if(websiteState.count > 0){
 				return "https://www.youtube.com/feed/subscriptions";
-			} else if(websiteState.logged != null && websiteState.logged == false){
+			} else if(websiteState.logged !== null && websiteState.logged === false){
 				return "https://www.youtube.com/feed/subscriptions"; // dA will redirect it to https://www.deviantart.com/users/login?ref=*
 			} else {
 				return "https://www.youtube.com/";
@@ -22,14 +22,14 @@ let YouTube = {
 			
 			let nodes = dataDocument.querySelectorAll("ul#guide-channels li.guide-channel");
 
-			if(nodes != null){
+			if(nodes !== null){
 				result.set("count", 0);
 				result.set("logged", false)
 				result.set("loginId", "")
 				result.set("folders", new Map());
 				
 				let userId_node = dataDocument.querySelector("#yt-masthead-user");
-				if(userId_node != null){
+				if(userId_node !== null){
 					result.set("logged", true);
 					//result.set("loginId", "");
 				}
@@ -37,7 +37,7 @@ let YouTube = {
 				let iconNodes = dataDocument.querySelectorAll("link[sizes][rel*=icon][href]");
 				let icons = new ExtendedMap();
 				for(let iconNode of iconNodes){
-					if(iconNode.getAttribute("sizes") != null){
+					if(iconNode.getAttribute("sizes") !== null){
 						icons.set(iconNode.getAttribute("sizes"),iconNode.href);
 					}
 				}
@@ -46,18 +46,18 @@ let YouTube = {
 				
 				let foldersMap = new Map();
 				for(let node of nodes){
-					if(typeof node.tagName == "string" && node.hasChildNodes() && node.children.length > 0){ // children exclude text and comment nodes
+					if(typeof node.tagName === "string" && node.hasChildNodes() && node.children.length > 0){ // children exclude text and comment nodes
 						let idNode = node;
 						let nameNode = node.querySelector(".display-name");
 						
 						let folderId = "",
 							folderName = "";
 						
-						if(idNode == null){
+						if(idNode === null){
 							continue;
 						} else {
 							folderId = idNode.id.replace("-guide-item","");
-							if(nameNode != null){
+							if(nameNode !== null){
 								folderName = nameNode.textContent.replace(/[\n\s]*/g,"");
 							}
 						}
@@ -65,7 +65,7 @@ let YouTube = {
 						
 						let folderCountNode = node.querySelector(".guide-count-value");
 						//let urlNode = data.querySelector("a.guide-item[href]");
-						if(folderCountNode != null){
+						if(folderCountNode !== null){
 							let folderCount = parseInt(folderCountNode.textContent);
 							//console.log(`${folderId} (${folderName}): ${folderCount}`);
 							
@@ -81,5 +81,5 @@ let YouTube = {
 				return null;
 			}
 		}
-}
+};
 websites.set("YouTube", YouTube);

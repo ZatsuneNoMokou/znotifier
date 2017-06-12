@@ -11,7 +11,7 @@
 	"short_name": "zNotifierDev",
 	"description": "__MSG_extShortDesc__",
 	"author": "ZatsuneNoMokou",
-	"version": "0.0.8",
+	"version": "0.1.0",
 	"icons": {
 		"128": "/icon_128.png"
 	},
@@ -44,7 +44,11 @@
 		"http://*.youtube.com/*",
 		"https://*.youtube.com/*",
 		"http://*.ytimg.com/*",
-		"https://*.ytimg.com/*"
+		"https://*.ytimg.com/*",
+		"http://*.yahoo.com/",
+		"https://*.yahoo.com/",
+		"http://*.yimg.com/",
+		"https://*.yimg.com/"
 	],
 	"options_ui": {
 		"page": "data/options.html",

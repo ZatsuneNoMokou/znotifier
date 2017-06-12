@@ -49,6 +49,9 @@
 	"no_website_logged": {
 		"message": "No account logged"
 	},
+	"inbox":{
+		"message": "Inbox"
+	},
 	"count_new_notif": {
 		"message": "$count$ new notification(s)",
 		"placeholders": {

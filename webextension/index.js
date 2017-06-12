@@ -13,9 +13,9 @@ let options = optionsData.options,
 
 
 function consoleMsg(level,str){
-	let msg = (typeof str.toString == "function")? str.toString() : str;
+	let msg = (typeof str.toString === "function")? str.toString() : str;
 	if(getPreference("showAdvanced") && getPreference("showExperimented")){
-		if(typeof console[level] == "function"){
+		if(typeof console[level] === "function"){
 			console[level](str);
 		} else {
 			consoleMsg("log", str);
@@ -24,9 +24,9 @@ function consoleMsg(level,str){
 }
 function consoleDir(obj,str){
 	if(getPreference("showAdvanced") && getPreference("showExperimented")){
-		if(typeof str == "string" || (typeof str != "undefined" && typeof str.toString == "function")){
+		if(typeof str === "string" || (typeof str !== "undefined" && typeof str.toString === "function")){
 			console.group();
-			console.info((typeof str == "string")? str : str.toString());
+			console.info((typeof str === "string")? str : str.toString());
 			console.dir(obj);
 			console.groupEnd();
 		} else {
@@ -40,7 +40,7 @@ function doNotif(title, message, imgurl) {
 }
 appGlobal.doNotif = doNotif;
 function doNotificationAction_Event(notificationId){
-	if(typeof notificationId == "string" && notificationId !== ""){
+	if(typeof notificationId === "string" && notificationId !== ""){
 		let action = JSON.parse(notificationId);
 		
 		switch(action.type){
@@ -69,9 +69,9 @@ chrome.notifications.onClicked.addListener(function(notificationId){
 	if(!chromeAPI_button_availability){
 		doNotificationAction_Event(notificationId);
 	} else {
-		if(typeof notificationId == "string" && notificationId !== ""){
+		if(typeof notificationId === "string" && notificationId !== ""){
 			let action = JSON.parse(notificationId);
-			if(action.type == "notificationList"){
+			if(action.type === "notificationList"){
 				doNotificationAction_Event(notificationId);
 			}
 		}
@@ -101,7 +101,7 @@ function doActionNotif(title, message, action, imgurl){
 		title: title,
 		message: message,
 		contextMessage: chrome.runtime.getManifest().name,
-		iconUrl: (typeof imgurl != "undefined")? imgurl : "/icon_128.png",
+		iconUrl: (typeof imgurl !== "undefined")? imgurl : "/icon_128.png",
 		isClickable: true
 	};
 	
@@ -109,7 +109,7 @@ function doActionNotif(title, message, action, imgurl){
 		close = {title: _("Close"), iconUrl: "/data/images/ic_close_black_24px.svg"},
 		log_in = {title: _("LogIn"), iconUrl: "/data/images/ic_open_in_browser_black_24px.svg"};
 	
-	if(chromeAPI_list_availability === true && action.type == "notificationList"){
+	if(chromeAPI_list_availability === true && action.type === "notificationList"){
 		options.type = "list";
 		options.items = action.data.list;
 	} else if(chromeAPI_button_availability === true){
@@ -129,8 +129,8 @@ function doActionNotif(title, message, action, imgurl){
 	}
 	
 	let notification_id = "";
-	if(JSON.stringify(action) != "{}"){
-		if(typeof action.data == "string"){
+	if(JSON.stringify(action) !== "{}"){
+		if(typeof action.data === "string"){
 			consoleMsg("info",`Notification (${action.type}): "${message}" (${action.data})`);
 		} else {
 			consoleDir(action.data, `Notification (${action.type}): "${message}"`);
@@ -142,19 +142,19 @@ function doActionNotif(title, message, action, imgurl){
 	
 	new Promise((resolve, reject) => {
 		chrome.notifications.create(notification_id, options, function(notificationId){
-			if(typeof chrome.runtime.lastError == "object" && chrome.runtime.lastError !== null && typeof chrome.runtime.lastError.message == "string" && chrome.runtime.lastError.message.length > 0){
+			if(typeof chrome.runtime.lastError === "object" && chrome.runtime.lastError !== null && typeof chrome.runtime.lastError.message === "string" && chrome.runtime.lastError.message.length > 0){
 				reject(chrome.runtime.lastError);
 			}
 		});
 	}).catch((error)=> {
-		if(typeof error == "object" && typeof error.message == "string" && error.message.length > 0){
+		if(typeof error === "object" && typeof error.message === "string" && error.message.length > 0){
 			consoleDir(error,error.message);
 			
-			if(/*error.message == "Adding buttons to notifications is not supported." ||*/ error.message.indexOf("\"list\"") != -1){
+			if(/*error.message == "Adding buttons to notifications is not supported." ||*/ error.message.indexOf("\"list\"") !== -1){
 				chromeAPI_list_availability = false;
 				consoleMsg("log","List not supported, retrying notification without it.");
 				doActionNotif(title, message, action, imgurl);
-			} else if(error.message == "Adding buttons to notifications is not supported." || error.message.indexOf("\"buttons\"") != -1){
+			} else if(error.message === "Adding buttons to notifications is not supported." || error.message.indexOf("\"buttons\"") !== -1){
 				chromeAPI_button_availability = false;
 				consoleMsg("log","Buttons not supported, retrying notification without them.");
 				doActionNotif(title, message, action, imgurl);
@@ -169,7 +169,7 @@ function openTabIfNotExist(url){
 	chrome.tabs.query({}, function(tabs) {
 		let custom_url = url.toLowerCase().replace(/http(?:s)?\:\/\/(?:www\.)?/i,"");
 		for(let tab of tabs){
-			if(tab.url.toLowerCase().indexOf(custom_url) != -1){ // Mean the url was already opened in a tab
+			if(tab.url.toLowerCase().indexOf(custom_url) !== -1){ // Mean the url was already opened in a tab
 				chrome.tabs.highlight({tabs: tab.index}); // Show the already opened tab
 				chrome.tabs.reload(tab.id); // Reload the already opened tab
 				return true; // Return true to stop the function as the tab is already opened
@@ -203,7 +203,7 @@ class ExtendedMap extends Map{
 		let bestUrl = "";
 		this.forEach((value, index) => {
 			let sizes = index.split("x");
-			if(sizes.length == 2){
+			if(sizes.length === 2){
 				let minSize = Math.min(sizes[0],sizes[1]);
 				if(minSize > bestIconMinSize){
 					bestIconMinSize = minSize;
@@ -220,18 +220,18 @@ function doNotifyWebsite(website){
 	let label = chrome.runtime.getManifest().name;
 	let notificationList = [],
 		labelArray = [];
-	
+
 	if(websiteData.logged){
 		if(websiteData.hasOwnProperty("folders")){
 			websiteData.folders.forEach((folderData, name) => {
 				let count = folderData.folderCount;
-				if(typeof count == "number" && !isNaN(count) && count > 0){
+				if(typeof count === "number" && !isNaN(count) && count > 0){
 					let suffix = "";
 					if(websiteData.notificationState.count !== null && websiteData.count > websiteData.notificationState.count){
 						suffix=` (+${websiteData.count - websiteData.notificationState.count})`;
 					}
 					labelArray.push(`${name}: ${count}${suffix}`);
-					notificationList.push({"title": `${(typeof folderData.folderName == "string")? folderData.folderName : name}: `, "message": count.toString()});
+					notificationList.push({"title": `${(typeof folderData.folderName === "string")? folderData.folderName : name}: `, "message": count.toString()});
 				}
 			});
 			label = labelArray.join("\n");
@@ -243,7 +243,7 @@ function doNotifyWebsite(website){
 			doActionNotif(_("website_notif", website), _("website_not_logged", website), new notifAction("notLogged", {"website": website}), websiteData.websiteIcon);
 		}
 		websiteData.notificationState.logged = websiteData.logged;
-	} else if(typeof websiteData.count == "number" && !isNaN(websiteData.count) && (websiteData.notificationState.count === null || websiteData.count > websiteData.notificationState.count)){
+	} else if(typeof websiteData.count === "number" && !isNaN(websiteData.count) && (websiteData.notificationState.count === null || websiteData.count > websiteData.notificationState.count)){
 		if(getPreference("notify")){
 			doActionNotif(_("website_notif", website), _("count_new_notif", websiteData.count.toString()), new notifAction("notificationList", {"website": website, "list": notificationList}), websiteData.websiteIcon);
 		}
@@ -251,7 +251,7 @@ function doNotifyWebsite(website){
 		if(getPreference("notify_vocal")){
 			voiceReadMessage("fr", _("count_new_notif", websiteData.count.toString()));
 		}
-	} else if(getPreference("notify_all_viewed") && (typeof websiteData.count == "number" && websiteData.count === 0) && (typeof websiteData.notificationState.count == "number" && websiteData.notificationState.count > 0)){
+	} else if(getPreference("notify_all_viewed") && (typeof websiteData.count === "number" && websiteData.count === 0) && (typeof websiteData.notificationState.count === "number" && websiteData.notificationState.count > 0)){
 		doActionNotif(_("website_notif", website), _("all_viewed"), new notifAction("allViewed", {"website": website}), websiteData.websiteIcon);
 	}
 	websiteData.notificationState.count = websiteData.count;
@@ -292,7 +292,7 @@ function doNotifyWebsites(){
 		if(getPreference("notify_vocal")){
 			voiceReadMessage("fr", _("count_new_notif_noplural", newGlobalCount.toString()));
 		}
-	} else if(newGlobalCount !== null && notificationList.length === 0 && newGlobalCount === 0 && (typeof globalCount == "number" && globalCount > 0) && getPreference("notify_all_viewed")){
+	} else if(newGlobalCount !== null && notificationList.length === 0 && newGlobalCount === 0 && (typeof globalCount === "number" && globalCount > 0) && getPreference("notify_all_viewed")){
 		doActionNotif("z-Notifier", _("all_viewed"), new notifAction("none",{}));
 	}
 	globalCount = newGlobalCount;
@@ -343,7 +343,7 @@ function PromiseWaitAll(promises){
 	}
 }
 function isMap(myMap){
-	return (myMap instanceof Map || myMap.constructor.name == "Map");
+	return (myMap instanceof Map || myMap.constructor.name === "Map");
 }
 function refreshWebsitesData(){
 	return new Promise((resolve, reject) => {
@@ -519,7 +519,7 @@ chrome.storage.local.get(null,function(currentLocalStorage) {
 	} else {*/
 		//consoleMsg("warn", "chrome.runtime.onInstalled is not available");
 		let details;
-		if(typeof getPreference("zNotifier_version") == "string" && getPreference("zNotifier_version") !== ""){
+		if(typeof getPreference("zNotifier_version") === "string" && getPreference("zNotifier_version") !== ""){
 			details = {
 				"reason": "unknown",
 				"previousVersion": getPreference("zNotifier_version")
@@ -534,7 +534,7 @@ chrome.storage.local.get(null,function(currentLocalStorage) {
 	//}
 	
 	loadJS(document, "/data/js/", ["backgroundTheme.js"]);
-	loadJS(document, "/data/js/platforms/", ["deviantart.js","youtube.js"])
+	loadJS(document, "/data/js/platforms/", ["deviantart.js","yahoomail.js","youtube.js"])
 		.then(initAddon)
 		.catch(initAddon)
-})
+});

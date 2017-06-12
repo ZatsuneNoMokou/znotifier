@@ -49,6 +49,9 @@
 	"no_website_logged": {
 		"message": "Aucun compte connecté"
 	},
+	"inbox":{
+		"message": "Boîte de réception"
+	},
 	"count_new_notif": {
 		"message": "$count$ nouvelles notification(s)",
 		"placeholders": {
