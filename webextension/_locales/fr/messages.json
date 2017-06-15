@@ -52,6 +52,9 @@
 	"inbox":{
 		"message": "Boîte de réception"
 	},
+	"spam":{
+		"message": "Pourriel"
+	},
 	"count_new_notif": {
 		"message": "$count$ nouvelles notification(s)",
 		"placeholders": {

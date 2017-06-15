@@ -78,6 +78,8 @@ let yahooMail = {
 
 							if(folderName.toLocaleLowerCase() === "inbox"){
 								folderName = _('inbox');
+							} else if(folderData.types.indexOf("BULK")!==-1){
+								folderName = _('spam');
 							}
 
 							result.addValue("count", folderCount);

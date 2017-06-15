@@ -52,6 +52,9 @@
 	"inbox":{
 		"message": "Inbox"
 	},
+	"spam":{
+		"message": "Spam"
+	},
 	"count_new_notif": {
 		"message": "$count$ new notification(s)",
 		"placeholders": {

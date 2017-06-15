@@ -1,3 +1,6 @@
+# 0.1.2
+* Fix: Spam name support for Yahoo Mail
+
 # 0.1.1
 * Fix: dataDocument null error
 
